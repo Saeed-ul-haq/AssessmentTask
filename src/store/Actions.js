@@ -5,11 +5,7 @@ export const saveData = (data) => ({
     data: data
   });
 
-export const saveallData = (data) => ({
 
-    type: 'SAVE_ALL_DATA',
-    data: data
-});
   
 export const fetchData = () => async dispatch => {
     try {
@@ -23,7 +19,7 @@ export const fetchData = () => async dispatch => {
         console.log('something went wrng');
       } else {
         
-        console.log('result data', response.data);
+        // console.log('result data', response.data);
         return dispatch(saveData(response.data));
       }
     } catch (error) {
@@ -32,21 +28,3 @@ export const fetchData = () => async dispatch => {
   };
 
 
-  export const getAllData = () => async dispatch => {
-    try {
-     
-      let response = await Axios.get('https://disease.sh/v3/covid-19/all');
-
-    
-      if (response.error) {
-        
-        console.log('something went wrng');
-      } else {
-        
-        // console.log('result data', response.data);
-        return dispatch(saveallData(response.data));
-      }
-    } catch (error) {
-      
-    }
-  };

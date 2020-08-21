@@ -1,12 +1,6 @@
 
 
-const Reducers =  (
-    state = {
-        countryWiseData: [],
-        AllData: []
-    },
-    action
-  ) => {
+const Reducers =  (state = { countryWiseData: [],}, action ) => {
     switch (action.type) {
 
       case "SAVE_DATA":
@@ -15,12 +9,7 @@ const Reducers =  (
           ...state,
          countryWiseData: action.data
         };
-      case "SAVE_ALL_DATA":
-
-      return {
-          ...state,
-          AllData: action.data
-      }
+      
       
       default:
         return state;

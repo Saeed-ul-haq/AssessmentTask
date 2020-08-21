@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import { Form,Table, Input, Button, Space, Row, Col} from 'antd';
+import { Form,Table, Input} from 'antd';
 import {connect} from 'react-redux';
-import { Menu, Dropdown, message, Tooltip } from 'antd';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import { message} from 'antd';
 import  {fetchData} from '../../store/Actions';
+import { Select } from 'antd';
 
-import Axios from 'axios';
-// import Highlighter from 'react-highlight-words';
 
 class DataTable extends Component {
 
@@ -19,39 +17,31 @@ class DataTable extends Component {
     }
 
     componentDidMount = async () => {
-       await this.props.fetchData()
+        await this.props.fetchData()
 
-       let id = 0;
-        
-            const  latestData = this.props.sortedData.sort(function(x,y){
-                return y.cases -x.cases
-              }).map(row => {
-                  id++;
-                  return {
-                        ranking: id,
-                         country: row.country,
-                          active:  row.active,
-                          cases:   row.cases,
-                           death: row.deaths,
-                            critical: row.critical,
-                            recovered: row.recovered,
+        let id = 0;
 
-              
-                  }
-              });
-              
-                    this.setState({
-                        data: latestData,
-                        filteredDate:latestData
-                    });
+        const  latestData = this.props.sortedData.sort(function(x,y){
+        return y.cases -x.cases
+        }).map(row => {
+        id++;
+        return {
+            ranking: id,
+                country: row.country,
+                active:  row.active,
+                cases:   row.cases,
+                death: row.deaths,
+                critical: row.critical,
+                recovered: row.recovered,
 
-                    // this.setState({
-                    //     cases: this.state.data.reduce((a,b) => a + b.cases, 0)
-                    // });
-                    // console.log('all cases' , this.state.cases);
-              
 
-       
+        }
+    });
+
+    this.setState({
+        data: latestData,
+        filteredDate:latestData
+    });
     }
 
     changeHandler = (e) => {
@@ -70,38 +60,32 @@ class DataTable extends Component {
                 filteredDate: this.state.data
             });
         }
-        // this.setState({
-        //     filteredDate: this.state.data
-        // });
         
-        
+    }
 
-        console.log(e.target.value);
+    onChange = (value) => {
+        
+        
+        const againSorted = function(x,y){
+            return y.value -x.value;
+        }
+        this.setState({
+            filteredDate: againSorted
+        });
     }
     handleButtonClick = (e) => {
         message.info('Click on left button.');
         console.log('click left button', e);
     };
       
-       handleMenuClick = (e) => {
-        message.info('Click on menu item.');
-        console.log('click', e);
-      }
+    //    handleMenuClick = (name) => {
+        
+    //     console.log('click', name);
+    //   }
     render() {
+        const { Option } = Select;
 
-        const menu = (
-            <Menu onClick={this.handleMenuClick}>
-              <Menu.Item key="1" >
-                1st menu item
-              </Menu.Item>
-              <Menu.Item key="2" >
-                2nd menu item
-              </Menu.Item>
-              <Menu.Item key="3" >
-                3rd menu item
-              </Menu.Item>
-            </Menu>
-          );
+
         
     const columns = [
         {
@@ -135,35 +119,41 @@ class DataTable extends Component {
       ];
       const {data, searchtext, searchcolumn} = this.state;
         return (
-            <div>
-                <div className="Toolbar">
-                    <div className="child1">Sort By:</div>
-                    <div className="child2"><Dropdown overlay={menu}>
-      <Button>
-        Button <DownOutlined />
-      </Button>
-    </Dropdown></div>
-                    <div />
-                    <div />
-                    <div />
-                    <div />
-                    <div className="child3">Search</div>
-                    <div className="child4"><Form><Input type="text" name="searchtext" placeholder="Search" vlaue={searchtext} onChange={this.changeHandler} /></Form></div>
+        <div>
+            <div className="Toolbar">
+            <div className="child1">Sort By:</div>
+            <div className="child2">
+                
+            <Select
+            showSearch
+            style={{ width: 200 }}
+            placeholder="Sort By"
+            optionFilterProp="children"
+            // onChange={this.onChange()}
+            // onFocus={onFocus}
+            // onBlur={onBlur}
+            // onSearch={onSearch}
+            filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            >
+            <Option value="cases">Cases</Option>
+            <Option value="recovered">Recovered</Option>
+            <Option value="deaths">Deaths</Option>
+            </Select>
+            </div>
+            <div />
+            <div />
+            <div />
+            <div />
+            <div className="child3">Search</div>
+            <div className="child4">
+                <Form><Input type="text" name="searchtext" placeholder="Search" vlaue={searchtext} onChange={this.changeHandler} /></Form></div>
 
-                </div>
-            {/* <Row>
-                <col span={3}>Sort By:</col>
-                <col span={3}><Input placeholder="Basic usage" /></col>
-                <col span={12} />
-                <col span={3}>Sort By:</col>
-                <col span={3}><Input placeholder="Basic usage" /></col>
-            </Row> */}
-           
-           
-    
-        
-         <Table columns={columns} dataSource={this.state.data} size="middle" style={{margin: '20px 10px'}}/>
-         
+            </div>
+
+            <Table columns={columns} dataSource={this.state.filteredDate} size="middle" style={{margin: '20px 10px'}}/>
+
         </div>
         );
     }

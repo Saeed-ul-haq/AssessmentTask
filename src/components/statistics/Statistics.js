@@ -3,7 +3,6 @@ import 'antd/dist/antd.css';
 // import './index.css';
 import {connect} from 'react-redux';
 import  {fetchData} from '../../store/Actions';
-import  {getAllData} from '../../store/Actions';
 import { Statistic,Card, Row, Col, Button } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import Axios from 'axios';
@@ -20,44 +19,9 @@ class Statistics extends Component {
     }
 
     componentDidMount = async () => {
-        await this.props.getAllData();
         await this.props.fetchData();
  
-        // let id = 0;
-
-    //   let response =  await Axios.get('https://disease.sh/v3/covid-19/all');
-        // console.log('this is response' ,response);
-         
-            //  const  latestData = this.props.sortedData.sort(function(x,y){
-            //      return y.cases -x.cases
-            //    }).map(row => {
-            //        id++;
-            //        return {
-            //              ranking: id,
-            //               country: row.country,
-            //                active:  row.active,
-            //                cases:   row.cases,
-            //                 death: row.deaths,
-            //                  critical: row.critical,
-            //                  recovered: row.recovered,
- 
-               
-            //        }
-            //    });
-            
-            // this.setState({
-            //     totalCases: this.props.sortedData.reduce((a,b) => a + b.cases, 0 )
-            // })
-            //    const cases = latestData.reduce((a,b) => a + b.cases,0);
-               
-                    //  this.setState({
-                    //      data: latestData,
-                    //      totalCases: cases
-                    //  });
-                    this.setState({
-                        totalDeaths: this.props.sortedData.reduce((a,b) => a + b.deaths, 0),
-                        recovered: this.props.sortedData.reduce((a,b) => a + b.recovered, 0)
-                    });
+      
                
  
         
@@ -174,13 +138,11 @@ class Statistics extends Component {
 }}
 const mapStateToProps = (state) => {
     return {
-        allData: state.AllData ,
         sortedData: state.countryWiseData 
     }
 };
   
 const mapDispatchToProps = (dispatch) => ({
-    getAllData: () => dispatch(getAllData()),
     fetchData: () => dispatch(fetchData()),
     
   });
