@@ -62,7 +62,7 @@
 }
 
 .logo {
-  height: 60px;
+  padding-bottom: 47px;
 }
 
 Header.headerText {
@@ -149,4 +149,26 @@ Header.headerText {
 span.ant-statistic-content-value-int {
   font-size: 1.87rem;
   font-weight: 700;
+}
+
+/* toolbar */
+
+.Toolbar {
+  display: flex;
+  flex-flow: row wrap;
+  
+  /* Then we define how is distributed the remaining space */
+  justify-content: space-between;
+  
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.child1 {
+  flex: 0 0 50px;
+}
+
+.ant-menu-item a {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 1rem;
 }

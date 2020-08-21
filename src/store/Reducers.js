@@ -1,24 +1,29 @@
-const initialState = {
-    arrayData: [],
-    
 
-};
 
-const Reducers = (state=initialState, action) => {
-    switch(action.type){
-        case 'FETCH_DATA':
-            
+const Reducers =  (
+    state = {
+        countryWiseData: [],
+        AllData: []
+    },
+    action
+  ) => {
+    switch (action.type) {
 
-            const newArray = [...action.data];
-            console.log('fetch');
-            return {
-                ...state,
-                data: newArray
-            };
-       
+      case "SAVE_DATA":
+          
+        return {
+          ...state,
+         countryWiseData: action.data
+        };
+      case "SAVE_ALL_DATA":
+
+      return {
+          ...state,
+          AllData: action.data
+      }
+      
+      default:
+        return state;
     }
-    return state;
-    
-}
-
+  };
 export default Reducers;

@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { Form,Table, Input, Button, Space, Row, Col} from 'antd';
 import {connect} from 'react-redux';
+import { Menu, Dropdown, message, Tooltip } from 'antd';
+import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import  {fetchData} from '../../store/Actions';
+
 import Axios from 'axios';
 // import Highlighter from 'react-highlight-words';
 
@@ -9,14 +13,17 @@ class DataTable extends Component {
     state = {
         data: [],
         searchtext: '',
-        searchcolumn: ''
+        searchcolumn: '',
+        filteredDate: [],
+        cases: 0
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
+       await this.props.fetchData()
+
        let id = 0;
-        Axios.get('https://disease.sh/v3/covid-19/countries')
-        .then((res) => {
-            const  latestData = res.data.sort(function(x,y){
+        
+            const  latestData = this.props.sortedData.sort(function(x,y){
                 return y.cases -x.cases
               }).map(row => {
                   id++;
@@ -32,19 +39,69 @@ class DataTable extends Component {
               
                   }
               });
-              this.props.fetchData(latestData);
-              this.setState({
-                  data: latestData
-              });
+              
+                    this.setState({
+                        data: latestData,
+                        filteredDate:latestData
+                    });
 
-        })
-        .catch(err => console.log(err));
+                    // this.setState({
+                    //     cases: this.state.data.reduce((a,b) => a + b.cases, 0)
+                    // });
+                    // console.log('all cases' , this.state.cases);
+              
+
+       
     }
 
     changeHandler = (e) => {
+        let value = e.target.value;
 
+        if(value !== ""){
+            this.setState({
+                searchtext: value
+            });
+            this.setState({
+                filteredDate : this.state.data.filter((v) => v.country.toLowerCase().includes(value.toLowerCase()))
+            });
+        }
+        else {
+            this.setState({
+                filteredDate: this.state.data
+            });
+        }
+        // this.setState({
+        //     filteredDate: this.state.data
+        // });
+        
+        
+
+        console.log(e.target.value);
     }
+    handleButtonClick = (e) => {
+        message.info('Click on left button.');
+        console.log('click left button', e);
+    };
+      
+       handleMenuClick = (e) => {
+        message.info('Click on menu item.');
+        console.log('click', e);
+      }
     render() {
+
+        const menu = (
+            <Menu onClick={this.handleMenuClick}>
+              <Menu.Item key="1" >
+                1st menu item
+              </Menu.Item>
+              <Menu.Item key="2" >
+                2nd menu item
+              </Menu.Item>
+              <Menu.Item key="3" >
+                3rd menu item
+              </Menu.Item>
+            </Menu>
+          );
         
     const columns = [
         {
@@ -79,6 +136,21 @@ class DataTable extends Component {
       const {data, searchtext, searchcolumn} = this.state;
         return (
             <div>
+                <div className="Toolbar">
+                    <div className="child1">Sort By:</div>
+                    <div className="child2"><Dropdown overlay={menu}>
+      <Button>
+        Button <DownOutlined />
+      </Button>
+    </Dropdown></div>
+                    <div />
+                    <div />
+                    <div />
+                    <div />
+                    <div className="child3">Search</div>
+                    <div className="child4"><Form><Input type="text" name="searchtext" placeholder="Search" vlaue={searchtext} onChange={this.changeHandler} /></Form></div>
+
+                </div>
             {/* <Row>
                 <col span={3}>Sort By:</col>
                 <col span={3}><Input placeholder="Basic usage" /></col>
@@ -86,16 +158,11 @@ class DataTable extends Component {
                 <col span={3}>Sort By:</col>
                 <col span={3}><Input placeholder="Basic usage" /></col>
             </Row> */}
-            <Row justify="space-between">
-                <Col span={4}>Sort By: </Col>
-                <Col span={4}><Input placeholder="Basic usage" /></Col>
-                <Col span={4}>Search</Col>
-                <Col span={4}><Form><Input type="text" name="searchtext" placeholder="Search" vlaue={searchtext} onChange={this.changeHandler} /></Form></Col>
-             </Row>
+           
            
     
         
-         <Table columns={columns} dataSource={this.props.data} size="middle" style={{margin: '20px 10px'}}/>
+         <Table columns={columns} dataSource={this.state.data} size="middle" style={{margin: '20px 10px'}}/>
          
         </div>
         );
@@ -104,20 +171,13 @@ class DataTable extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.arrayData
+        sortedData: state.countryWiseData 
     }
 };
   
-  const mapDispatchToProps = (dispatch) => {
-  
-    return {
-      fetchData: (arrayData) => {
-          
-        dispatch({ type: 'FETCH_DATA', data: arrayData })},
-    //   addphoto: (postedPhoto) => dispatch({type: 'ADD_PHOTO', photo: postedPhoto})
-  
-    }
-  
-  }
+const mapDispatchToProps = (dispatch) => ({
+    fetchData: () => dispatch(fetchData()),
+    
+  })
 
 export default connect(mapStateToProps,mapDispatchToProps)(DataTable);

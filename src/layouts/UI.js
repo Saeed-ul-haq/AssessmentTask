@@ -1,7 +1,7 @@
 import React from 'react'
 import {Typography} from 'antd'
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { LineChartOutlined, TableOutlined, } from '@ant-design/icons';
+import { LineChartOutlined, TableOutlined,HomeOutlined } from '@ant-design/icons';
 import logo from '../logo.png';
 import {Link} from 'react-router-dom';
 
@@ -26,13 +26,19 @@ const UI = ({component}) => {
           {/* <img src={logo} /> */}
           </div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-        <Menu.Item key="1" icon={<LineChartOutlined />} >
+      <Menu.Item key="1" icon={<HomeOutlined />} >
+            <Link to="/">
+            HOME
+            </Link>
+           
+        </Menu.Item>
+        <Menu.Item key="2" icon={<LineChartOutlined />} >
             <Link to="/statistics">
             COVID-19 Statistics
             </Link>
            
         </Menu.Item>
-        <Menu.Item key="2" icon={<TableOutlined />}>
+        <Menu.Item key="3" icon={<TableOutlined />}>
             <Link to="/table">Data Table</Link>
         
         </Menu.Item>
