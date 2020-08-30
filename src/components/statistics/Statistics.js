@@ -111,7 +111,7 @@ class Statistics extends Component {
       <Col span={6}>
         <Card className="tests">
           <Statistic
-            title="Tests"
+            title="Today Tests"
             value={this.props.sortedData.reduce((a,b) => a + b.tests,0)}
             precision={0}
             valueStyle={{ color: '#cf1322' }}

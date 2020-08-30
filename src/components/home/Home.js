@@ -39,7 +39,7 @@ class Home extends Component {
                      this.setState({
                          graphdata: latestData
                      });
-                     console.log(this.state.graphdata)
+                     
      }
 render() {
   const { Title } = Typography;
