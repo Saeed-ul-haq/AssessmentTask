@@ -11,26 +11,25 @@ class DataTable extends Component {
     state = {
         data: [],
         searchtext: '',
-        searchcolumn: '',
         filteredDate: [],
-        cases: 0
     }
 
     componentDidMount = async () => {
         await this.props.fetchData()
 
-        let id = 0;
+        let Cranking = 0;
 
         const  latestData = this.props.sortedData.sort(function(x,y){
         return y.cases -x.cases
-        }).map(row => {
-        id++;
+        })
+        .map(row => {
+            Cranking++;
         return {
-            ranking: id,
+            ranking: Cranking,
                 country: row.country,
                 active:  row.active,
                 cases:   row.cases,
-                death: row.deaths,
+                deaths: row.deaths,
                 critical: row.critical,
                 recovered: row.recovered,
 
@@ -38,10 +37,10 @@ class DataTable extends Component {
         }
     });
 
-    this.setState({
-        data: latestData,
-        filteredDate:latestData
-    });
+        this.setState({
+            // data: this.props.sortedData,
+            filteredDate:latestData
+        });
     }
 
     changeHandler = (e) => {
@@ -64,24 +63,98 @@ class DataTable extends Component {
     }
 
     onChange = (value) => {
+        let Cranking = 0;
+        if(value == 'cases')
+        {
+            let sortedData1 = this.state.filteredDate.sort(function(x,y){
+                return    y.cases -x.cases
+                }).map(row => {
+                    Cranking++;
+                return {
+                    ranking: Cranking,
+                        country: row.country,
+                        active:  row.active,
+                        cases:   row.cases,
+                        deaths: row.deaths,
+                        critical: row.critical,
+                        recovered: row.recovered,
         
         
-        const againSorted = function(x,y){
-            return y.value -x.value;
+                };
+                
+            // console.log('sorted data: ', sortedData1);
+            // this.setState({
+            //     filteredDate: sortedData1
+            
+            });
+            this.setState({
+                filteredDate: sortedData1
+            });
         }
-        this.setState({
-            filteredDate: againSorted
-        });
-    }
-    handleButtonClick = (e) => {
-        message.info('Click on left button.');
-        console.log('click left button', e);
-    };
-      
-    //    handleMenuClick = (name) => {
+        else if (value == 'recovered')
+        {
+            let sortedData1 = this.state.filteredDate.sort(function(x,y){
+                return    y.recovered -x.recovered
+                }).map(row => {
+                    Cranking++;
+                return {
+                    ranking: Cranking,
+                        country: row.country,
+                        active:  row.active,
+                        cases:   row.cases,
+                        deaths: row.deaths,
+                        critical: row.critical,
+                        recovered: row.recovered,
         
-    //     console.log('click', name);
-    //   }
+        
+                };
+                
+            // console.log('sorted data: ', sortedData1);
+            // this.setState({
+            //     filteredDate: sortedData1
+            
+            });
+            this.setState({
+                filteredDate: sortedData1
+            });
+        }
+        else if (value == 'deaths')
+        {
+            let sortedData1 = this.state.filteredDate.sort(function(x,y){
+                return    y.deaths -x.deaths
+                }).map(row => {
+                    Cranking++;
+                return {
+                    ranking: Cranking,
+                        country: row.country,
+                        active:  row.active,
+                        cases:   row.cases,
+                        deaths: row.deaths,
+                        critical: row.critical,
+                        recovered: row.recovered,
+        
+        
+                };
+                
+            // console.log('sorted data: ', sortedData1);
+            // this.setState({
+            //     filteredDate: sortedData1
+            
+            });
+            this.setState({
+                filteredDate: sortedData1
+            });
+        }
+
+        
+       
+        
+
+        
+                
+    }
+   
+      
     render() {
         const { Option } = Select;
 
@@ -106,7 +179,7 @@ class DataTable extends Component {
         },
         {
             title: 'Death',
-            dataIndex: 'death'
+            dataIndex: 'deaths'
         },
         {
             title: 'Critical',
@@ -129,7 +202,7 @@ class DataTable extends Component {
             style={{ width: 200 }}
             placeholder="Sort By"
             optionFilterProp="children"
-            // onChange={this.onChange()}
+            onChange={this.onChange}
             // onFocus={onFocus}
             // onBlur={onBlur}
             // onSearch={onSearch}

@@ -1,6 +1,8 @@
+const initialState = {
+  countryWiseData: []
+};
 
-
-const Reducers =  (state = { countryWiseData: [],}, action ) => {
+const Reducers =  (state = initialState, action ) => {
     switch (action.type) {
 
       case "SAVE_DATA":
