@@ -1,8 +1,6 @@
 import React from 'react'
-import {Typography} from 'antd'
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu} from 'antd';
 import { LineChartOutlined, TableOutlined,HomeOutlined } from '@ant-design/icons';
-import logo from '../logo.png';
 import {Link} from 'react-router-dom';
 
 
@@ -11,7 +9,7 @@ import {Link} from 'react-router-dom';
 const UI = ({component}) => {
 
     const { Header, Content, Footer, Sider } = Layout;
-    const { Title } = Typography;
+    
     return (
         <Layout>
     <Sider

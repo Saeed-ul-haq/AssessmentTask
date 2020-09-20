@@ -172,3 +172,52 @@ span.ant-statistic-content-value-int {
   color: rgba(0, 0, 0, 0.65);
   font-size: 1rem;
 }
+
+.static_app {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #f5f6fa;
+}
+
+.app_left {
+  flex-basis: 710px;
+  flex-shrink: 1;
+  
+}
+.app_right {
+  flex-basis: 40px;
+}
+.tables{
+  
+    overflow: scroll;
+    color: #6a5d5d;
+    background-color: white;
+    height: 400px;
+    
+}
+.tables tr {
+  font-size: 16px;
+}
+
+.tables tr:nth-of-type(odd) {
+  background-color: #f3f2f8;
+}
+
+.app_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.app_header > h3 {
+  font-size: 2rem;
+}
+
+@media(max-width: 1100px){
+  .static_app {
+    flex-direction: column;
+  }
+}
+

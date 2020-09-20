@@ -20,7 +20,7 @@ class Home extends Component {
     componentDidMount = async () => {
         await this.props.fetchData()
  
-        let id = 0;
+        
          
         const  latestData = this.props.sortedData
       
@@ -60,16 +60,16 @@ render() {
               argumentField="state"
               name="deaths"
               />
-              <BarSeries
+              {/* <BarSeries
               valueField="cases"
               argumentField="state"
               name="deaths"
-              />
-              <BarSeries
+              /> */}
+              {/* <BarSeries
               valueField="cases"
               argumentField="state"
               name="deaths"
-              />
+              /> */}
               <Stack />
               </Chart>
             </div>

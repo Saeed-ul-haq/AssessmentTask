@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form,Table, Input} from 'antd';
 import {connect} from 'react-redux';
-import { message} from 'antd';
+
 import  {fetchData} from '../../store/Actions';
 import { Select } from 'antd';
 
@@ -25,26 +25,28 @@ class DataTable extends Component {
         .map(row => {
             Cranking++;
         return {
-            ranking: Cranking,
+                ranking: Cranking,
                 country: row.country,
                 active:  row.active,
                 cases:   row.cases,
                 deaths: row.deaths,
                 critical: row.critical,
                 recovered: row.recovered,
+                key: row.countryInfo.iso2
 
 
         }
     });
 
         this.setState({
-            // data: this.props.sortedData,
+            data: this.props.sortedData,
             filteredDate:latestData
         });
     }
 
     changeHandler = (e) => {
         let value = e.target.value;
+        console.log('value is ', value)
 
         if(value !== ""){
             this.setState({
@@ -64,7 +66,7 @@ class DataTable extends Component {
 
     onChange = (value) => {
         let Cranking = 0;
-        if(value == 'cases')
+        if(value === 'cases')
         {
             let sortedData1 = this.state.filteredDate.sort(function(x,y){
                 return    y.cases -x.cases
@@ -91,7 +93,7 @@ class DataTable extends Component {
                 filteredDate: sortedData1
             });
         }
-        else if (value == 'recovered')
+        else if (value === 'recovered')
         {
             let sortedData1 = this.state.filteredDate.sort(function(x,y){
                 return    y.recovered -x.recovered
@@ -118,7 +120,7 @@ class DataTable extends Component {
                 filteredDate: sortedData1
             });
         }
-        else if (value == 'deaths')
+        else if (value === 'deaths')
         {
             let sortedData1 = this.state.filteredDate.sort(function(x,y){
                 return    y.deaths -x.deaths
@@ -190,7 +192,7 @@ class DataTable extends Component {
             dataIndex: 'recovered'
         }
       ];
-      const {data, searchtext, searchcolumn} = this.state;
+      const { searchtext} = this.state;
         return (
         <div>
             <div className="Toolbar">
@@ -203,9 +205,6 @@ class DataTable extends Component {
             placeholder="Sort By"
             optionFilterProp="children"
             onChange={this.onChange}
-            // onFocus={onFocus}
-            // onBlur={onBlur}
-            // onSearch={onSearch}
             filterOption={(input, option) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
@@ -225,7 +224,7 @@ class DataTable extends Component {
 
             </div>
 
-            <Table columns={columns} dataSource={this.state.filteredDate} size="middle" style={{margin: '20px 10px'}}/>
+            <Table columns={columns} dataSource={this.state.filteredDate} size="middle"  style={{margin: '20px 10px'}}/>
 
         </div>
         );
